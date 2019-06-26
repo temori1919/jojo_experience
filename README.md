@@ -19,3 +19,5 @@ inputやtextarea内でキータイプすると、「オラオラ」エフェク�
 
 
 正直、邪魔なchrome拡張ですww
+
+[chrome ウェブストア Jojo experience](https://chrome.google.com/webstore/detail/jojo-experience/foinkfknclhpkpbomacdfjfbaklgifpk)
