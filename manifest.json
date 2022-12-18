@@ -1,21 +1,27 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Jojo experience",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "スタンド使いになれるChrome Extensionです",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": [
       	"jquery.min.js",
-      	"soundEffect.js",
-      	"caretposition.js"
+      	"soundEffect.mjs",
+      	"caretposition.js",
+      	"jquery.keyframes.min.js",
+        "extensions/extensionMethods.js"
       ]
     }
   ],
-  "web_accessible_resources": [
-    "images/*"
-  ],
+  "web_accessible_resources": [{
+    "resources": [
+      "images/*",
+      "extensions/*"
+    ],
+    "matches" : ["<all_urls>"]
+}],
   "permissions": [
     "storage"
   ]

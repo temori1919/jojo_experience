@@ -1,0 +1,30 @@
+name: GitHub Actions Demo
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+
+      - name: Archive
+        run: |
+          zip -r extension.zip ./ -x "*.git*"
+
+      - name: Publish
+        run: |
+          npx chrome-webstore-upload-cli@2 upload --source extension.zip --auto-publish
+        env:
+          EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
