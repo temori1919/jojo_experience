@@ -14,7 +14,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: npm
 
       - name: Archive
         run: |
@@ -22,6 +21,7 @@ jobs:
 
       - name: Publish
         run: |
+          yarn global add chrome-webstore-upload-cli
           npx chrome-webstore-upload-cli@2 upload --source extension.zip --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
