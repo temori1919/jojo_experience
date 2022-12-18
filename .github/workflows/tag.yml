@@ -1,0 +1,19 @@
+name: GitHub Actions Demo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Add tags
+      - run: |
+          echo "build-$(TZ=Asia/Tokyo date +%Y%m%d%H%M%S)" > TAG_NAME
+          git tag $(cat TAG_NAME)
+          git push origin $(cat TAG_NAME)
