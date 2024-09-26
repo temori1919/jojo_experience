@@ -13,7 +13,7 @@ const resolveDate = async () => {
     return today >= from && today <= to;
   });
 
-  return match.file || false;
+  return match?.file || false;
 };
 
 /**

@@ -16,9 +16,10 @@ document.onkeydown = (e) => {
   ) {
     (async () => {
       // タイピング時間の記録
-      let type_time = localStorage.type_time;
+      let {type_time} = await getStorage('type_time');
       // タイピング数のカウント
-      let type_count = localStorage.type_count;
+      let {type_count} = await getStorage('type_count');
+
 
       // タイピングの感覚が500ミリ秒以下ならタイピング数をカウントする
       if (
@@ -26,12 +27,13 @@ document.onkeydown = (e) => {
         type_count !== undefined &&
         new Date().getTime() - type_time < 500
       ) {
-        localStorage.type_count = parseInt(type_count) + 1;
+        setStorage({type_count: parseInt(type_count) + 1});
+
       } else {
-        localStorage.type_count = 1;
+        setStorage({type_count: 1});
       }
 
-      localStorage.type_time = new Date().getTime();
+      setStorage({type_time: new Date().getTime()});
 
       const isEnter = e.key === "Enter";
       // キャレットの位置の取得
@@ -50,7 +52,8 @@ document.onkeydown = (e) => {
 
       // タイプカウントの回数が30以上でエンターをタイプしたらセリフと効果音を表示
       if (isEnter && type_count > 30) {
-        localStorage.type_count = 1;
+        setStorage({type_count: 1});
+
         // 時
         image = await appnedCss(
           "images/toki.png",
@@ -102,7 +105,7 @@ function appnedCss(imgUrl, size, top, left, delay) {
   return new Promise((resolve) => {
     delay = delay === undefined ? 0 : delay;
     setTimeout(() => {
-      imgUrl = chromeInstance.runtime.getURL(imgUrl);
+      imgUrl = chrome.runtime.getURL(imgUrl);
       img = $(`<img width="${size}">`);
       img.attr("src", imgUrl);
       img.css({
@@ -146,4 +149,12 @@ function animateRemove(img, isEnter, positon, delay) {
       resolve(null);
     }, delay);
   });
+}
+
+function setStorage(item) {
+  chrome.storage.local.set(item)
+}
+
+function getStorage(key) {
+  return chrome.storage.local.get(key)
 }
